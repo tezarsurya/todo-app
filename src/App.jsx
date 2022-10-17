@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import FilterControl from "./components/FilterControl";
-import ListItem from "./components/ListItem";
 import Checkbox from "./components/Checkbox";
 import DeleteBtn from "./components/DeleteBtn";
 import { themeState, todoListState } from "./lib/recoil/atoms";
