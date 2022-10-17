@@ -9,7 +9,7 @@ function FilterControl() {
   }
 
   return (
-    <div className="flex items-center justify-between space-x-4 text-lg  md:text-sm">
+    <div className="flex items-center justify-between space-x-4 text-lg font-bold text-[#AEADB5] dark:text-[#6E6881] md:text-sm">
       <button
         type="button"
         value="All"

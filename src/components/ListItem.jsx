@@ -2,7 +2,7 @@ import React from "react";
 import Checkbox from "./Checkbox";
 import DeleteBtn from "./DeleteBtn";
 
-function ListItem({ item }) {
+function ListItem({ item, ...props }) {
   return (
     <li className="flex items-center space-x-3 border-b px-6 py-4 dark:border-[#4D5066]">
       <Checkbox name={item.id} id={item.id} />

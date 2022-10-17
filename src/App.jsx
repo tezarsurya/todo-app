@@ -2,8 +2,11 @@ import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import FilterControl from "./components/FilterControl";
 import ListItem from "./components/ListItem";
+import Checkbox from "./components/Checkbox";
+import DeleteBtn from "./components/DeleteBtn";
 import { themeState, todoListState } from "./lib/recoil/atoms";
 import { todoSelector } from "./lib/recoil/selectors";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 function App() {
   const [todos, setTodos] = useRecoilState(todoListState);
@@ -34,7 +37,7 @@ function App() {
     setTodos((oldTodos) => [
       ...oldTodos,
       {
-        id: nextId,
+        id: nextId.toString(),
         todo: data.get("todo"),
         completed: data.get("completed") ? true : false,
       },
@@ -46,6 +49,22 @@ function App() {
   function handleClearCompleted() {
     const updatedTodos = todos.filter((item) => !item.completed);
     setTodos([...updatedTodos]);
+  }
+
+  function reorder(list, startIndex, endIndex) {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+
+    return result;
+  }
+
+  function onDragEnd(result) {
+    if (!result.destination) return;
+
+    const items = reorder(todos, result.source.index, result.destination.index);
+
+    setTodos([...items]);
   }
 
   useEffect(() => {
@@ -123,7 +142,6 @@ function App() {
             id="todo"
             placeholder="Create a new todo..."
             autoComplete="off"
-            autoFocus
             required
             className="h-full flex-1 bg-transparent placeholder-[#88878C] focus:outline-none dark:placeholder-[#626475]"
           />
@@ -131,25 +149,64 @@ function App() {
         {/* Input end */}
 
         {/* List */}
-        <ul className="mt-4 w-full rounded-md bg-[#fafafa] text-[#484b6a] shadow-lg shadow-[#9394a5] transition-colors duration-300 ease-in-out dark:bg-[#1E1F30] dark:text-[#9596A9] dark:shadow-[#0A0C16]">
-          {filteredTodos.length > 0 &&
-            filteredTodos.map((item) => <ListItem item={item} key={item.id} />)}
-          <div className="flex justify-between px-6 py-4 dark:text-[#6E6881]">
-            <p className="text-sm">
-              {todos.filter((item) => !item.completed).length} items left
-            </p>
-            <div className="hidden place-items-center md:grid">
-              <FilterControl />
-            </div>
-            <button
-              type="button"
-              onClick={handleClearCompleted}
-              className="text-sm transition-colors duration-300 ease-in-out hover:text-[#181824] dark:hover:text-[#fafafa]"
-            >
-              Clear Completed
-            </button>
-          </div>
-        </ul>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="droppable">
+            {(provided, snapshot) => (
+              <ul
+                id="listContainer"
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                className="mt-4 w-full rounded-md bg-[#fafafa] text-[#484b6a] shadow-lg shadow-[#9394a5] transition-colors duration-300 ease-in-out dark:bg-[#1E1F30] dark:text-[#9596A9] dark:shadow-[#0A0C16]"
+              >
+                {filteredTodos.length > 0 &&
+                  filteredTodos.map((item, index) => (
+                    <Draggable
+                      key={item.id}
+                      draggableId={[item.id].toString()}
+                      index={index}
+                    >
+                      {(provided, snapshot) => (
+                        <li
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          className="flex items-center space-x-3 border-b px-6 py-4 dark:border-[#4D5066]"
+                        >
+                          <Checkbox name={item.id} id={item.id} />
+                          <div
+                            className={`flex-1 transition-all duration-300 ease-in-out ${
+                              item.completed
+                                ? "text-[#9394a5] line-through dark:text-[#6E6881]"
+                                : ""
+                            }`}
+                          >
+                            {item.todo}
+                          </div>
+                          <DeleteBtn id={item.id} />
+                        </li>
+                      )}
+                    </Draggable>
+                  ))}
+                {provided.placeholder}
+                <div className="flex justify-between px-6 py-4 text-[#AEADB5] dark:text-[#6E6881]">
+                  <p className="text-sm">
+                    {todos.filter((item) => !item.completed).length} items left
+                  </p>
+                  <div className="hidden place-items-center md:grid">
+                    <FilterControl />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleClearCompleted}
+                    className="text-sm text-[#AEADB5] transition-colors duration-300 ease-in-out hover:text-[#181824] dark:hover:text-[#fafafa]"
+                  >
+                    Clear Completed
+                  </button>
+                </div>
+              </ul>
+            )}
+          </Droppable>
+        </DragDropContext>
         {/* List end */}
 
         {/* Filter Control (mobile) */}
@@ -157,6 +214,10 @@ function App() {
           <FilterControl />
         </div>
         {/* Filter Control end */}
+
+        <p className="mt-10 w-full text-center font-bold text-[#AEADB5] dark:text-[#4F5062]">
+          Drag and drop to reorder list
+        </p>
       </div>
     </div>
   );
