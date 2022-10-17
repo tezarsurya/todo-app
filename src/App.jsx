@@ -113,7 +113,7 @@ function App() {
           id="todoInput"
           action="#"
           onSubmit={handleSubmit}
-          className="mt-7 flex w-full items-center justify-around space-x-3 rounded-md bg-[#fafafa] px-6 py-4 text-[#484b6a] transition-colors duration-300 ease-in-out dark:bg-[#1E1F30] dark:text-[#9596A9]"
+          className="mt-7 flex w-full items-center justify-around space-x-3 rounded-md bg-[#fafafa] px-6 py-4 font-bold text-[#484b6a] transition-colors duration-300 ease-in-out dark:bg-[#1E1F30] dark:text-[#9596A9]"
         >
           <div className="relative h-6 w-6 rounded-full border-2 border-[#E6E5EA] dark:border dark:border-[#4D5066]">
             <input
@@ -156,7 +156,7 @@ function App() {
                 id="listContainer"
                 {...provided.droppableProps}
                 ref={provided.innerRef}
-                className="mt-4 w-full rounded-md bg-[#fafafa] text-[#484b6a] shadow-lg shadow-[#9394a5] transition-colors duration-300 ease-in-out dark:bg-[#1E1F30] dark:text-[#9596A9] dark:shadow-[#0A0C16]"
+                className="mt-4 w-full rounded-md bg-[#fafafa] font-bold text-[#484b6a] shadow-lg shadow-[#9394a5] transition-colors duration-300 ease-in-out dark:bg-[#1E1F30] dark:text-[#9596A9] dark:shadow-[#0A0C16]"
               >
                 {filteredTodos.length > 0 &&
                   filteredTodos.map((item, index) => (
@@ -198,7 +198,7 @@ function App() {
                   <button
                     type="button"
                     onClick={handleClearCompleted}
-                    className="text-sm text-[#AEADB5] transition-colors duration-300 ease-in-out hover:text-[#181824] dark:hover:text-[#fafafa]"
+                    className="text-sm text-[#AEADB5] transition-colors duration-300 ease-in-out hover:text-[#181824] dark:text-[#6E6881] dark:hover:text-[#fafafa]"
                   >
                     Clear Completed
                   </button>
