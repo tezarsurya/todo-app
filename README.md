@@ -37,8 +37,6 @@ Users should be able to:
 ![desktop-dark](./screenshots/desktop-dark.jpeg)
 ![mobile-light](./screenshots/mobile-light.jpeg)
 ![mobile-dark](./screenshots/mobile-dark.jpeg)
-![drag-n-drop](./screenshots/todo-app-dragndrop.gif)
-<!-- <img src="./screenshots/todo-app-dragndrop.gif" alt="drag-n-drop" width="480" /> -->
 
 ### Links
 
