@@ -15,7 +15,5 @@ export const todoSelector = selector({
       default:
         return todos;
     }
-
-    return todos;
   },
 });
