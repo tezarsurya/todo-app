@@ -13,7 +13,7 @@ function App() {
   const filteredTodos = useRecoilValue(todoSelector);
 
   function handleTheme() {
-    setTheme(theme === "dark" ? "light" : "dark");
+    setTheme((oldTheme) => (oldTheme === "dark" ? "light" : "dark"));
   }
 
   function handleSubmit(e) {
