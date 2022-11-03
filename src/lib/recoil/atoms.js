@@ -39,7 +39,7 @@ export const themeState = atom({
     ({ onSet, setSelf }) => {
       const activeTheme = localStorage.getItem("theme");
 
-      activeTheme ? setSelf(activeTheme) : "light";
+      setSelf(activeTheme ? activeTheme : "light");
 
       onSet((newValue) => {
         localStorage.setItem("theme", newValue);
