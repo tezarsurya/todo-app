@@ -157,7 +157,11 @@ function App() {
                 ref={provided.innerRef}
                 className="mt-4 w-full rounded-md bg-[#fafafa] font-bold text-[#484b6a] shadow-lg shadow-[#9394a5] transition-colors duration-300 ease-in-out dark:bg-[#1E1F30] dark:text-[#9596A9] dark:shadow-[#0A0C16]"
               >
-                {filteredTodos.length > 0 &&
+                {filteredTodos.length === 0 ? (
+                  <div className="grid place-items-center p-4">
+                    Your list is empty
+                  </div>
+                ) : (
                   filteredTodos.map((item, index) => (
                     <Draggable
                       key={item.id}
@@ -185,7 +189,8 @@ function App() {
                         </li>
                       )}
                     </Draggable>
-                  ))}
+                  ))
+                )}
                 {provided.placeholder}
                 <div className="flex justify-between px-6 py-4 text-[#AEADB5] dark:text-[#6E6881]">
                   <p className="text-sm">
